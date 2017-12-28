@@ -33,6 +33,11 @@ class Order
      * @var float
      */
     protected $rate;
+    
+    /**
+     * @var int
+     */
+    protected $status;
 
     /**
      * Last update of cache.
@@ -118,6 +123,22 @@ class Order
     public function setRate(float $rate): void
     {
         $this->rate = $rate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param float $rate
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
     }
 
 

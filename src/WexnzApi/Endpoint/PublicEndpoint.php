@@ -75,6 +75,31 @@ class PublicEndpoint extends AbstractEndpoint implements EndpointInterface
     }
 
     /**
+     * Provides all the information about currently active pairs.
+     * All information is provided over the past 24 hours.
+     * @param array $pairs
+     * @param bool $mapping
+     * @return array|Ticker
+     * @throws ClientException
+     */
+    public function tickers(array $pairs, bool $mapping = false)
+    {
+        $response = $this->sendRequest(Api::GET, $this->getApiUrn(['ticker', implode("-", $pairs)]));
+
+        if ($mapping) {
+            $reply = [];
+            foreach ($response as $pair => $ticker) {
+                $item = array_merge(['pair' => $pair], $ticker);
+                $reply[] = $this->deserializeItem($item, Ticker::class);
+            }
+            return $reply;
+        } else {
+            return $response;
+        }
+
+    }
+
+    /**
      * Provides the information about active orders on the pair
      * @param string $pair
      * @param int $limit max value 5000
@@ -95,7 +120,7 @@ class PublicEndpoint extends AbstractEndpoint implements EndpointInterface
         );
 
         if ($mapping) {
-            $setDepth = function(array $item) {
+            $setDepth = function (array $item) {
                 $depth = new Depth();
                 $depth->setRate($item[0]);
                 $depth->setAmount($item[1]);

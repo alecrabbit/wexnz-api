@@ -2,3 +2,4 @@ vendor
 console.php
 src/WexnzApi/TestCommand.php
 notes.txt
+/.idea

@@ -4,6 +4,7 @@ namespace madmis\WexnzApi\Endpoint;
 
 use madmis\WexnzApi\Api;
 use madmis\WexnzApi\Exception\ClientErrorException;
+use madmis\WexnzApi\Exception\ExchangeErrorException;
 use madmis\WexnzApi\Model\CancelOrder;
 use madmis\WexnzApi\Model\NewOrder;
 use madmis\WexnzApi\Model\Order;
@@ -213,6 +214,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      * @return array response
      * @throws ClientException
      * @throws ClientErrorException
+     * @throws ExchangeErrorException
      */
     protected function sendRequest(string $method, string $uri, array $options = []): array
     {
@@ -234,7 +236,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
 
         $response = $this->processResponse($response);
         if (!$response['success']) {
-            throw new ClientErrorException($response['error']);
+            throw new ExchangeErrorException($response['error']);
         }
 
         return $response;

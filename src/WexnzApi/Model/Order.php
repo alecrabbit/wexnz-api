@@ -33,7 +33,7 @@ class Order
      * @var float
      */
     protected $rate;
-    
+
     /**
      * @var int
      */
@@ -134,7 +134,7 @@ class Order
     }
 
     /**
-     * @param float $rate
+     * @param int $status
      */
     public function setStatus(int $status): void
     {

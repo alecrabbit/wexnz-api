@@ -8,6 +8,7 @@ use madmis\WexnzApi\Model\CancelOrder;
 use madmis\WexnzApi\Model\NewOrder;
 use madmis\WexnzApi\Model\Order;
 use madmis\WexnzApi\Model\TradeHistory;
+use madmis\WexnzApi\Model\TransHistory;
 use madmis\WexnzApi\Model\UserInfo;
 use madmis\ExchangeApi\Client\ClientInterface;
 use madmis\ExchangeApi\Endpoint\AbstractEndpoint;
@@ -178,20 +179,20 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
 
     /**
      * @param string $pair
-     * @param int $limit
+     * @param int $limitCount
      * @param string $order
      * @param bool $mapping
      * @return array|TradeHistory[]
      * @throws ClientErrorException
      */
-    public function tradeHistory(string $pair, bool $mapping = false, int $limit = 1000, string $order = 'DESC'): array
+    public function tradeHistory(string $pair, bool $mapping = false, int $limitCount = 1000, string $order = 'DESC'): array
     {
         $options = [
             'form_params' => [
                 'nonce' => $this->getNonce(),
                 'method' => 'TradeHistory',
                 'pair' => $pair,
-                'limit' => $limit,
+                'count' => $limitCount,
                 'order' => $order,
             ],
         ];
@@ -200,6 +201,32 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
 
         if ($mapping) {
             $response = $this->deserializeItems($response['return'], TradeHistory::class);
+        }
+
+        return $response;
+    }
+    /**
+     * @param int $limitCount
+     * @param string $order
+     * @param bool $mapping
+     * @return array|TradeHistory[]
+     * @throws ClientErrorException
+     */
+    public function transHistory(bool $mapping = false, int $limitCount = 1000, string $order = 'DESC'): array
+    {
+        $options = [
+            'form_params' => [
+                'nonce' => $this->getNonce(),
+                'method' => 'TransHistory',
+                'count' => $limitCount,
+                'order' => $order,
+            ],
+        ];
+
+        $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
+
+        if ($mapping) {
+            $response = $this->deserializeItems($response['return'], TransHistory::class);
         }
 
         return $response;

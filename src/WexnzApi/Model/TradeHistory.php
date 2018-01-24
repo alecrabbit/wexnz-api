@@ -40,7 +40,7 @@ class TradeHistory
     protected $isYourOrder;
 
     /**
-     * Last update of cache.
+     * Trade DateTime
      * @var \DateTime
      */
     protected $timestamp;
@@ -144,7 +144,7 @@ class TradeHistory
     /**
      * @return \DateTime
      */
-    public function getTimestamp(): \DateTime
+    public function getDateTime(): \DateTime
     {
         return $this->timestamp;
     }

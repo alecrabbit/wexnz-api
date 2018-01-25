@@ -178,14 +178,27 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
     }
 
     /**
-     * @param string $pair
-     * @param int $limitCount
-     * @param string $order
      * @param bool $mapping
+     * @param int|null $from
+     * @param int $limitCount
+     * @param int|null $from_id
+     * @param int|null $end_id
+     * @param string $order
+     * @param int|null $since
+     * @param int|null $end
+     * @param string|null $pair
      * @return array|TradeHistory[]
      * @throws ClientErrorException
      */
-    public function tradeHistory(string $pair, bool $mapping = false, int $limitCount = 1000, string $order = 'DESC'): array
+    public function tradeHistory(bool $mapping = false,
+                                 int $from = null,
+                                 int $limitCount = 1000,
+                                 int $from_id = null,
+                                 int $end_id = null,
+                                 string $order = 'DESC',
+                                 int $since = null,
+                                 int $end = null,
+                                 string $pair = null): array
     {
         $options = [
             'form_params' => [
@@ -194,9 +207,13 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
                 'pair' => $pair,
                 'count' => $limitCount,
                 'order' => $order,
+                'from' => $from,
+                'from_id' => $from_id,
+                'end_id' => $end_id,
+                'since' => $since,
+                'end' => $end,
             ],
         ];
-
         $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
 
         if ($mapping) {
@@ -205,14 +222,27 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
 
         return $response;
     }
+
     /**
-     * @param int $limitCount
-     * @param string $order
      * @param bool $mapping
+     * @param int|null $from
+     * @param int $limitCount
+     * @param int|null $from_id
+     * @param int|null $end_id
+     * @param string $order
+     * @param int|null $since
+     * @param int|null $end
      * @return array|TradeHistory[]
      * @throws ClientErrorException
      */
-    public function transHistory(bool $mapping = false, int $limitCount = 1000, string $order = 'DESC'): array
+    public function transHistory(bool $mapping = false,
+                                 int $from = null,
+                                 int $limitCount = 1000,
+                                 int $from_id = null,
+                                 int $end_id = null,
+                                 string $order = 'DESC',
+                                 int $since = null,
+                                 int $end = null): array
     {
         $options = [
             'form_params' => [
@@ -220,6 +250,11 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
                 'method' => 'TransHistory',
                 'count' => $limitCount,
                 'order' => $order,
+                'from' => $from,
+                'from_id' => $from_id,
+                'end_id' => $end_id,
+                'since' => $since,
+                'end' => $end,
             ],
         ];
 
